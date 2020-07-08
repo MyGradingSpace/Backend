@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const languageSchema = new mongoose.Schema({
-    _id: String,
-    name: String,
+    language: String,
+    version: String
 });
 
 const Language = mongoose.model("Language", languageSchema);

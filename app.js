@@ -22,4 +22,6 @@ app.listen(process.env.PORT || process.env.port || 5000, () => {
     console.log(`App listening on port ${process.env.PORT || 5000}.`);
 });
 
-app.get("/get-all-languages", language.getAllLanguages);
+
+app.get("/all-languages", language.getAllLanguages);
+app.post("/language", language.createLanguage);
