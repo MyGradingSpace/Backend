@@ -1,4 +1,4 @@
-const task = require("./router/tasks");
+const language = require("./router/language.router");
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -22,6 +22,4 @@ app.listen(process.env.PORT || process.env.port || 5000, () => {
     console.log(`App listening on port ${process.env.PORT || 5000}.`);
 });
 
-app.get("/task", task.getTasks);
-app.post("/task", task.createTasks);
-app.delete("/task", task.deleteTasks);
+app.get("/get-all-languages", language.getAllLanguages);
