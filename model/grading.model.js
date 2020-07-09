@@ -19,6 +19,11 @@ const gradingSchema = new mongoose.Schema({
     }]
 });
 
+for (var p in gradingSchema.paths) {
+    gradingSchema.path(p).required(true);
+}
+
+
 const Grading = mongoose.model("Grading", gradingSchema);
 
 module.exports = Grading;

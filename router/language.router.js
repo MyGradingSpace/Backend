@@ -2,9 +2,21 @@ const language = require("../model/language.model");
 
 async function getAllLanguages(req, res, next) {
     console.log("/get-all-languages");
-    let Languages = await language.find();
-    res.json(Languages);
-
+    try {
+        let Languages = await language.find();
+        var languagesResult = [];
+        Languages.forEach((lang) => {
+            console.log(lang);
+            languagesResult.push({
+                name:lang.name,
+                version: lang.version
+            });
+        });
+        res.json(languagesResult);
+    } catch (err) {
+        res.status(500);
+        res.json({ message: err });
+    }
 }
 
 async function createLanguage(req, res, next) {
@@ -16,8 +28,13 @@ async function createLanguage(req, res, next) {
             version: body.version,
         });
         console.log(newLanguage);
-        const Language = await newLanguage.save();
-        res.json(Language);
+        try {
+            const Language = await newLanguage.save();
+            res.json(Language);
+        } catch (err) {
+            res.status(500);
+            res.json({ message: err });
+        }
     } else {
         res.status(400);
         res.json({ message: "missing parameters." });

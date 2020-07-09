@@ -19,6 +19,10 @@ const jobSchema = new mongoose.Schema({
     }],
 });
 
+for (var p in jobSchema.paths) {
+    jobSchema.path(p).required(true);
+}
+
 const Job = mongoose.model("Job", jobSchema);
 
 module.exports = Job;
