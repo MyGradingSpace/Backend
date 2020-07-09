@@ -5,7 +5,14 @@ const gradingSchema = new mongoose.Schema({
         jobId:String,
         studentName: String,
         studentId: String,
-        markingResults: Arrayof(Arrayof(Boolean)),
+        markingResults: {
+            filename: String,
+            testResult: [{
+                output: String,
+                expectOutput: String,
+                marks: Number,
+            }]
+        },
     }]
 });
 
