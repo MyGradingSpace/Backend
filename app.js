@@ -9,11 +9,16 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use((req, res, next) => { next(); });
-
-mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, (err) => {
+var dboptions = {
+    user:'admin',
+    pass:'example',
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+};
+mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}?authSource=admin`, dboptions , (err) => {
     if (err) throw err;
     console.log("Local DB Connected Successfully");
 });

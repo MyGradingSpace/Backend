@@ -13,17 +13,24 @@ async function getAllLanguages(req, res, next) {
 async function createLanguage(req, res, next) {
     console.log("/post-language");
     const body = req.body;
-    const newLanguage = new language({
-        language: body.language,
-        version: body.version,
-    });
-    console.log(newLanguage);
-    try {
-        const Language = await newLanguage.save();
-        res.json(Language);
-    } catch (err) {
-        res.json({ message: err });
+    if(req.body.hasOwnProperty("name") && req.body.hasOwnProperty('version')) {
+        const newLanguage = new language({
+            name: body.name,
+            version: body.version,
+        });
+        console.log(newLanguage);
+        try {
+            const Language = await newLanguage.save();
+            res.json(Language);
+        } catch (err) {
+            res.status(400);
+            res.json({ message: err });
+        }
+    } else {
+        res.status(400);
+        res.json({ message: "missing parameters." });
     }
+
 
 }
 
