@@ -4,9 +4,12 @@ const jobSchema = new mongoose.Schema({
     professorName: String,
     professorId: String,
     course: String,
+    orgUnitId: String,
     dropbox: String,
+    folderId: String,
     gradingCounts: Number,
     submissionCounts: Number,
+    gradingId: String,
     configuration: [{
         filename: String,
         testCases: [{
@@ -15,9 +18,8 @@ const jobSchema = new mongoose.Schema({
             marks: Number,
         }]
     }],
-    gradingId: String,
 });
 
-const Language = mongoose.model("Language", languageSchema);
+const Job = mongoose.model("Job", jobSchema);
 
-module.exports = Language;
+module.exports = Job;

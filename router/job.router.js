@@ -1,33 +1,59 @@
-const language = require("../model/language.model");
+const job = require("../model/job.model");
 
-async function getAllLanguages(req, res, next) {
-    console.log("/get-all-languages");
-    try {
-        let Languages = await language.find();
-        res.json(Languages);
-    } catch (err) {
-        res.json({ message: err });
-    }
+async function getAllJobs(req, res, next) {
+    console.log("/get-all-jobs");
+    const params = req.query;
+    let jobs = await job.find({ professorId: params.professorId });
+    res.json(jobs);
 }
 
-async function createLanguage(req, res, next) {
-    console.log("/post-language");
+async function createJob(req, res, next) {
+    console.log("/post-job");
     const body = req.body;
-    const newLanguage = new language({
-        language: body.language,
-        version: body.version,
+    const newJob = new job({
+        professorName: body.professorName,
+        professorId: body.professorId,
+        course: body.course,
+        orgUnitId: body.orgUnitId,
+        dropbox: body.dropbox,
+        folderId: body.folderId,
+        gradingCounts: 0,
+        submissionCounts: 0,
+        configuration: body.configuration,
+        gradingId: "",
     });
-    console.log(newLanguage);
-    try {
-        const Language = await newLanguage.save();
-        res.json(Language);
-    } catch (err) {
-        res.json({ message: err });
-    }
+    console.log(newJob);
+    const Job = await newJob.save();
+    res.json(Job);
+}
 
+async function updateJob(req, res, next) {
+    console.log("/put-job");
+    const params = req.query;
+    const body = req.body;
+    const updatedJob = await job.updateOne(
+        { _id: params._id },
+        {
+            gradingCounts: body.gradingCounts,
+            submissionCounts: body.submissionCounts,
+            gradingId: body.gradingId,
+        }
+    );
+    res.json(updatedJob);
+}
+
+async function deleteJob(req, res, next) {
+    console.log("/delete-job");
+    const params = req.query;
+    const selectJob = await job.deleteOne({
+        _id: params._id
+    });
+    res.json(selectJob);
 }
 
 module.exports = {
-    getAllLanguages,
-    createLanguage,
+    getAllJobs,
+    createJob,
+    updateJob,
+    deleteJob,
 };

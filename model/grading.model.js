@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const gradingSchema = new mongoose.Schema({
-    result:[{
-        jobId:String,
-        studentName: String,
-        studentId: String,
+    jobId: String,
+    grading: [{
+        DisplayName: String,
+        EntityId: String,
+        FileName: String,
+        fileId: String,
+        downloadAddress: String,
         markingResults: {
             filename: String,
             testResult: [{
