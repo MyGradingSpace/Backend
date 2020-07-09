@@ -7,15 +7,15 @@ const gradingSchema = new mongoose.Schema({
         EntityId: String,
         FileName: String,
         fileId: String,
-        downloadAddress: String,
-        markingResults: {
+        markingResults: [{
             filename: String,
+            marked: Boolean,
             testResult: [{
                 output: String,
                 expectOutput: String,
                 marks: Number,
             }]
-        },
+        }],
     }]
 });
 

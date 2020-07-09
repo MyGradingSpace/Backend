@@ -46,3 +46,7 @@ app.post("/job", job.createJob);
 app.put("/job", job.updateJob);
 app.delete("/job", job.deleteJob);
 //grading
+app.get("/grading", grading.getGrading);
+app.post("/grading", grading.createGrading);
+app.put("/grading", grading.updateGrading);
+app.delete("/grading", grading.deleteGrading);

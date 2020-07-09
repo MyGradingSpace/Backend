@@ -20,7 +20,6 @@ async function createJob(req, res, next) {
         gradingCounts: 0,
         submissionCounts: 0,
         configuration: body.configuration,
-        gradingId: "",
     });
     console.log(newJob);
     const Job = await newJob.save();

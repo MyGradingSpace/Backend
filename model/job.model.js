@@ -9,7 +9,6 @@ const jobSchema = new mongoose.Schema({
     folderId: String,
     gradingCounts: Number,
     submissionCounts: Number,
-    gradingId: String,
     configuration: [{
         filename: String,
         testCases: [{

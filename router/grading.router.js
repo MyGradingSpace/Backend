@@ -3,8 +3,8 @@ const grading = require("../model/grading.model");
 async function getGrading(req, res, next) {
     console.log("/get-grading");
     const params = req.query;
-    let grading = await grading.find({ _id: params._id });
-    res.json(grading);
+    let Grading = await grading.find({ jobId: params.jobId });
+    res.json(Grading);
 }
 
 async function createGrading(req, res, next) {
