@@ -8,6 +8,7 @@ async function getAllLanguages(req, res, next) {
         Languages.forEach((lang) => {
             console.log(lang);
             languagesResult.push({
+                _id:lang._id,
                 name:lang.name,
                 version: lang.version
             });
