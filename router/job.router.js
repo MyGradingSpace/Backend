@@ -1,5 +1,5 @@
 const job = require("../model/job.model");
-const grading = require("../model/grading.model");
+const grading = require("../router/grading.router");
 
 async function getAllJobs(req, res, next) {
     console.log("/get-all-jobs");

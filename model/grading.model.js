@@ -19,10 +19,12 @@ const gradingSchema = new mongoose.Schema({
     }]
 });
 
+
 for (var p in gradingSchema.paths) {
+    console.log(p);
     gradingSchema.path(p).required(true);
 }
-
+gradingSchema.path("grading").required(false);
 
 const Grading = mongoose.model("Grading", gradingSchema);
 
