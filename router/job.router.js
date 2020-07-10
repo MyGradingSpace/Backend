@@ -1,4 +1,5 @@
 const job = require("../model/job.model");
+const grading = require("../model/grading.model");
 
 async function getAllJobs(req, res, next) {
     console.log("/get-all-jobs");
@@ -10,20 +11,34 @@ async function getAllJobs(req, res, next) {
 async function createJob(req, res, next) {
     console.log("/post-job");
     const body = req.body;
-    const newJob = new job({
-        professorName: body.professorName,
-        professorId: body.professorId,
-        course: body.course,
-        orgUnitId: body.orgUnitId,
-        dropbox: body.dropbox,
-        folderId: body.folderId,
-        gradingCounts: 0,
-        submissionCounts: 0,
-        configuration: body.configuration,
-    });
-    console.log(newJob);
-    const Job = await newJob.save();
-    res.json(Job);
+    
+    try {
+        var gradingId = makeGradingId(body.course, body.dropbox);
+        const newJob = new job({
+            professorName: body.professorName,
+            professorId: body.professorId,
+            course: body.course,
+            orgUnitId: body.orgUnitId,
+            dropbox: body.dropbox,
+            folderId: body.folderId,
+            gradingId: gradingId,
+            gradingCounts: 0,
+            submissionCounts: 0,
+            configuration: body.configuration,
+        });
+
+        console.log(newJob);
+        const Job = await newJob.save();
+        res.json(Job);
+    } catch (err) {
+        res.status(400);
+        res.json({
+            message: "missing parameter(s) or pramater(s) type incorrect.",
+            // input: req.body,
+            details: err
+        });
+        return;
+    }
 }
 
 async function updateJob(req, res, next) {
@@ -33,9 +48,9 @@ async function updateJob(req, res, next) {
     const updatedJob = await job.updateOne(
         { _id: params._id },
         {
+            gradingId: body.gradingId,
             gradingCounts: body.gradingCounts,
             submissionCounts: body.submissionCounts,
-            gradingId: body.gradingId,
         }
     );
     res.json(updatedJob);
@@ -49,6 +64,20 @@ async function deleteJob(req, res, next) {
     });
     res.json(selectJob);
 }
+
+function makeGradingId(Course,Dropbox) {
+    let date_ob = new Date();
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 4; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    result = date_ob.getFullYear() + "-" + date_ob.getMonth() + "-" + Course.split(" ")[0].split("-")[0] + "-" + Dropbox.split(' ').join('') + "-" + result;
+    console.log(result);
+    return result;
+ }
 
 module.exports = {
     getAllJobs,

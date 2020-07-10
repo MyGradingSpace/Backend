@@ -7,6 +7,7 @@ const jobSchema = new mongoose.Schema({
     orgUnitId: String,
     dropbox: String,
     folderId: String,
+    gradingId: String,
     gradingCounts: Number,
     submissionCounts: Number,
     configuration: [{

@@ -10,13 +10,24 @@ async function getGrading(req, res, next) {
 async function createGrading(req, res, next) {
     console.log("/post-grading");
     const body = req.body;
-    const newGrading = new grading({
-        jobId: body.jobId,
-        grading: body.grading,
-    });
-    console.log(newGrading);
-    const Grading = await newGrading.save();
-    res.json(Grading);
+
+    try {
+        const newGrading = new grading({
+            jobId: body.jobId,
+            grading: body.grading,
+        });
+
+        console.log(newGrading);
+        const Grading = await newGrading.save();
+        res.json(Grading);
+    } catch (err) {
+        res.status(400);
+        res.json({
+            message: "missing parameter(s) or pramater(s) type incorrect.",
+            details: err
+        });
+        return;
+    }
 }
 
 async function updateGrading(req, res, next) {
