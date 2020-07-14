@@ -10,14 +10,13 @@ async function getGrading(req, res, next) {
 async function createGrading(req, res, next) {
     console.log("/post-grading");
     const body = req.body;
-
     try {
         const newGrading = new grading({
             jobId: body.jobId,
+            gradingId: body.gradingId,
             grading: body.grading,
         });
-
-        console.log(newGrading);
+        // console.log(newGrading);
         const Grading = await newGrading.save();
         res.json(Grading);
     } catch (err) {

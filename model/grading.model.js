@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const gradingSchema = new mongoose.Schema({
     jobId: String,
+    gradingId: String,
     grading: [{
         DisplayName: String,
         EntityId: String,
