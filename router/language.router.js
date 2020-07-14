@@ -4,16 +4,17 @@ async function getAllLanguages(req, res, next) {
     console.log("/get-all-languages");
     try {
         let Languages = await language.find();
-        var languagesResult = [];
-        Languages.forEach((lang) => {
-            console.log(lang);
-            languagesResult.push({
-                _id:lang._id,
-                name:lang.name,
-                version: lang.version
-            });
-        });
-        res.json(languagesResult);
+        // var languagesResult = [];
+        // Languages.forEach((lang) => {
+        //     console.log(lang);
+        //     languagesResult.push({
+        //         _id:lang._id,
+        //         name:lang.name,
+        //         version: lang.version
+        //     });
+        // });
+        // res.json(languagesResult);
+        res.json(Languages);
     } catch (err) {
         res.status(500);
         res.json({ message: err });
