@@ -74,7 +74,12 @@ function makeGradingId(Course,Dropbox) {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
 
-    result = date_ob.getFullYear() + "-" + date_ob.getMonth() + "-" + Course.split(" ")[0].split("-")[0] + "-" + Dropbox.split(' ').join('') + "-" + result;
+    result = date_ob.getFullYear() + 
+    "-" + date_ob.getMonth() + 
+    "-" + Course.split(" ")[0].split("-")[0] + 
+    "-" + Dropbox.split(' ').join('') + 
+    "-" + result;
+    
     console.log(result);
     return result;
  }
