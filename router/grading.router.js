@@ -14,7 +14,8 @@ async function createGrading(req, res, next) {
         const newGrading = new grading({
             jobId: body.jobId,
             gradingId: body.gradingId,
-            grading: body.grading,
+            objects: body.objects,
+            credential:body.credential,
         });
         // console.log(newGrading);
         const Grading = await newGrading.save();

@@ -11,7 +11,6 @@ async function getAllJobs(req, res, next) {
 async function createJob(req, res, next) {
     console.log("/post-job");
     const body = req.body;
-    
     try {
         var gradingId = makeGradingId(body.course, body.dropbox);
         const newJob = new job({
@@ -21,12 +20,12 @@ async function createJob(req, res, next) {
             orgUnitId: body.orgUnitId,
             dropbox: body.dropbox,
             folderId: body.folderId,
+            languageId: body.languageId,
             gradingId: gradingId,
             gradingCounts: 0,
             submissionCounts: 0,
             configuration: body.configuration,
         });
-
         console.log(newJob);
         const Job = await newJob.save();
         res.json(Job);
@@ -73,14 +72,12 @@ function makeGradingId(Course,Dropbox) {
     for ( var i = 0; i < 4; i++ ) {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-
     result = date_ob.getFullYear() + 
     "-" + date_ob.getMonth() + 
     "-" + Course.split(" ")[0].split("-")[0] + 
     "-" + Dropbox.split(' ').join('') + 
     "-" + result;
-    
-    console.log(result);
+    // console.log(result);
     return result;
  }
 
