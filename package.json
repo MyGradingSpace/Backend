@@ -9,8 +9,8 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },
-  "appShortName": "vac-backend",
-  "appLongName": "voice-analytics-chatbot-backend",
+  "appShortName": "MGS-backend",
+  "appLongName": "MyGradingSpace-backend",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.cooperators.ca/scm/vac/vac-backend.git"
+    "url": "https://github.com/MyGradingSpace/Backend.git"
   }
 }
