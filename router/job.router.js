@@ -44,15 +44,29 @@ async function updateJob(req, res, next) {
     console.log("/put-job");
     const params = req.query;
     const body = req.body;
-    const updatedJob = await job.updateOne(
-        { _id: params._id },
-        {
-            gradingId: body.gradingId,
-            gradingCounts: body.gradingCounts,
-            submissionCounts: body.submissionCounts,
-        }
-    );
-    res.json(updatedJob);
+    if (req.body.hasOwnProperty("gradingId") && req.body.hasOwnProperty('gradingCounts') && req.body.hasOwnProperty('submissionCounts')) {
+        const updatedJob = await job.updateOne(
+            { _id: params._id },
+            {
+                gradingId: body.gradingId,
+                gradingCounts: body.gradingCounts,
+                submissionCounts: body.submissionCounts,
+            }
+        );
+        res.json(updatedJob);
+    } else {
+        res.status(400);
+        res.json({
+            message: "missing parameter(s) or pramater(s) type incorrect.",
+            details: {
+                "missingProperties": req.body.hasOwnProperty("_id") ? "" : "_id " +
+                    req.body.hasOwnProperty("gradingId") ? "" : "gradingId " +
+                    req.body.hasOwnProperty("gradingCounts") ? "" : "gradingCounts " +
+                    req.body.hasOwnProperty("submissionCounts") ? "" : "submissionCounts ",
+                info: err
+            }
+        });
+    }
 }
 
 async function deleteJob(req, res, next) {
@@ -64,22 +78,22 @@ async function deleteJob(req, res, next) {
     res.json(selectJob);
 }
 
-function makeGradingId(Course,Dropbox) {
+function makeGradingId(Course, Dropbox) {
     let date_ob = new Date();
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < 4; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    for (var i = 0; i < 4; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    result = date_ob.getFullYear() + 
-    "-" + date_ob.getMonth() + 
-    "-" + Course.split(" ")[0].split("-")[0] + 
-    "-" + Dropbox.split(' ').join('') + 
-    "-" + result;
+    result = date_ob.getFullYear() +
+        "-" + date_ob.getMonth() +
+        "-" + Course.split(" ")[0].split("-")[0] +
+        "-" + Dropbox.split(' ').join('') +
+        "-" + result;
     // console.log(result);
     return result;
- }
+}
 
 module.exports = {
     getAllJobs,

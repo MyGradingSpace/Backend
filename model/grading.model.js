@@ -12,6 +12,7 @@ const gradingSchema = new mongoose.Schema({
         DisplayName: String,
         EntityId: String,
         FileName: String,
+        submissionId: String,
         fileId: String,
         markings: [{
             filename: String,
