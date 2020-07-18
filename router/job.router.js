@@ -29,6 +29,7 @@ async function createJob(req, res, next) {
         console.log(newJob);
         const Job = await newJob.save();
         res.json(Job);
+        console.log(newJob);
     } catch (err) {
         res.status(400);
         res.json({

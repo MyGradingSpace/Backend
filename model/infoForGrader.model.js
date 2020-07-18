@@ -5,6 +5,7 @@ const infoForGraderSchema = new mongoose.Schema({
     links: [
         {
             EntityId: String,
+            filename: String,
             link: String
         }
     ],
