@@ -59,7 +59,7 @@ async function updateJob(req, res, next) {
         res.json({
             message: "missing parameter(s) or pramater(s) type incorrect.",
             details: {
-                "missingProperties": req.body.hasOwnProperty("_id") ? "" : "_id " +
+                missingProperties: req.body.hasOwnProperty("_id") ? "" : "_id " +
                     req.body.hasOwnProperty("gradingId") ? "" : "gradingId " +
                     req.body.hasOwnProperty("gradingCounts") ? "" : "gradingCounts " +
                     req.body.hasOwnProperty("submissionCounts") ? "" : "submissionCounts ",

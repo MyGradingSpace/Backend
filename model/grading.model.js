@@ -21,6 +21,7 @@ const gradingSchema = new mongoose.Schema({
                 output: String,
                 expectOutput: String,
                 marks: Number,
+                match: Boolean
             }]
         }],
     }]
