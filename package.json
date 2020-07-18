@@ -8,10 +8,11 @@
     "mongoose": "^5.9.2",
     "openshift-rest-client": "^4.1.1",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "request-promise": "^4.2.4",
+    "valence": "^1.0.3"
   },
-  "appShortName": "vac-backend",
-  "appLongName": "voice-analytics-chatbot-backend",
+  "appShortName": "MGS-backend",
+  "appLongName": "MyGradingSpace-backend",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -26,6 +27,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.cooperators.ca/scm/vac/vac-backend.git"
+    "url": "https://github.com/MyGradingSpace/Backend.git"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
   }
 }

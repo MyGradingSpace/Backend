@@ -10,6 +10,7 @@ const jobSchema = new mongoose.Schema({
     gradingId: String,
     gradingCounts: Number,
     submissionCounts: Number,
+    languageId: String,
     configuration: [{
         filename: String,
         testCases: [{

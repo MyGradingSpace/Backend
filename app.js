@@ -2,6 +2,7 @@ const test =  require("./router/test.router");
 const language = require("./router/language.router");
 const job = require("./router/job.router");
 const grading = require("./router/grading.router");
+const grader = require("./router/grader.router");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -48,5 +49,5 @@ app.delete("/job", job.deleteJob);
 //grading
 app.get("/grading",grading.getGrading);
 app.post("/grading",grading.createGrading);
-app.put("/grading",grading.updateGrading);
+app.put("/grading",grader.updateGrading);
 app.delete("/grading",grading.deleteGrading);
