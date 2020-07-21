@@ -33,7 +33,7 @@ mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}?authSource=ad
 // });
 
 app.listen(process.env.PORT || process.env.port || 5000, () => {
-    console.log(`App listening on port ${process.env.PORT || 5000}.`);
+    console.log(`Backend now listening on port ${process.env.PORT || 5000}.`);
 });
 
 //health-check
@@ -49,7 +49,7 @@ app.delete("/job", job.deleteJob);
 //grading
 app.get("/grading",grading.getGrading);
 app.post("/grading",grading.createGrading);
-app.put("/grading",grader.updateGrading);
 app.delete("/grading",grading.deleteGrading);
-
+//grader
+app.put("/grading",grader.updateGrading);
 app.get("/joblinks", grader.getLinks);

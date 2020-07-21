@@ -38,8 +38,6 @@ async function createGrading(req, res, next) {
 
         //get all urls
 
-        // var D2LUserContext = new D2L.ApplicationContext(process.env.APP_ID, process.env.APP_KEY)
-        //     .createUserContextWithValues("https://" + process.env.BRIGHTSPACE_HOST, 443, Grading.credential.SessionId, Grading.credential.SessionKey);
         var D2LUserContext = new D2L.ApplicationContext(process.env.APP_ID, process.env.APP_KEY)
             .createUserContextWithValues("https://" + process.env.BRIGHTSPACE_HOST, 443, "lSj3-aOMLSfTGJcUkossnd", "_qWFeksnL-HqmHs2WXjaoD");
         // console.log(D2LUserContext.createAuthenticatedUrl("/d2l/api/le/1.34/219419/dropbox/folders/54721/submissions/1542823/files/2675648", "get"));
