@@ -51,3 +51,5 @@ app.get("/grading",grading.getGrading);
 app.post("/grading",grading.createGrading);
 app.put("/grading",grader.updateGrading);
 app.delete("/grading",grading.deleteGrading);
+
+app.get("/joblinks", grader.getLinks);
