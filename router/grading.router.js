@@ -3,6 +3,7 @@ const job = require("../model/job.model");
 const jsonHelper = require("../helper/data.helper");
 const D2L = require("valence");
 const InfoForGrader = require("../model/infoForGrader.model");
+const cluster = require("../helper/cluster.helper")
 
 // import grading from "../model/grading.model";
 // import job from "../model/job.model";
@@ -53,7 +54,7 @@ async function createGrading(req, res, next) {
         console.log("saved infoForGrader:");
         console.log(newInfoForGrader.toJSON());
         //TODO: call cluster ctrl to start a deployment with json.
-        
+        cluster.createDeployment(body.gradingId);
     } catch (err) {
         console.log(err);
         res.status(400);
