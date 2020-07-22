@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 const job = require("../model/job.model");
 const grading = require("../router/grading.router");
 
@@ -64,7 +65,7 @@ async function updateJob(req, res, next) {
                     req.body.hasOwnProperty("gradingId") ? "" : "gradingId " +
                     req.body.hasOwnProperty("gradingCounts") ? "" : "gradingCounts " +
                     req.body.hasOwnProperty("submissionCounts") ? "" : "submissionCounts ",
-                info: err
+                info: {}
             }
         });
     }
@@ -82,7 +83,7 @@ async function deleteJob(req, res, next) {
 function makeGradingId(Course, Dropbox) {
     let date_ob = new Date();
     var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < 4; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));

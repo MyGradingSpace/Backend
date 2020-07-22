@@ -8,6 +8,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: example
+      GRADINGID: 2020-6-CP317T1-A01-uAiA
   mongo-express:
     image: mongo-express
     restart: always

@@ -1,0 +1,34 @@
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "name": "grader-GRADINGID",
+        "namespace": "my-grading-space"
+    },
+    "spec": {
+        "selector": {
+            "matchLabels": {
+                "app": "mygradingspace-grader"
+            }
+        },
+        "template": {
+            "replicas": 1,
+            "metadata": {
+                "labels": {
+                    "app": "mygradingspace-grader"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "name": "grader-GRADINGID",
+                        "image": "python",
+                        "ports": [
+                            {}
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}
