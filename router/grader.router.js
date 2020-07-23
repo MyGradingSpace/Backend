@@ -8,12 +8,12 @@ const InfoForGrader = require("../model/infoForGrader.model");
 
 async function updateGrading(req, res, next) {
     console.log('/put-grading');
-    console.log('received information from grader pod with gradingId: ');
+    // console.log('received information from grader pod with gradingId: ');
     const params = req.headers;
     const body = req.body;
     // console.log(req.headers);
     // console.log(req.body);
-    console.log(req.body.results[0].markings);
+    // console.log(req.body.results[0].markings);
     if (params.key == 'oursecret') {
         try {
             const updatedJob = await job.findOneAndUpdate(

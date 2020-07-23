@@ -1,13 +1,14 @@
 
 function createLinkJson(userContext, gradingObj, jobObj) {
+    // console.log(gradingObj, jobObj)
     var result = [];
     const orgUnitId = jobObj.orgUnitId;
     const folderId = jobObj.folderId;
-    console.log("gradingObj:")
-    console.log(gradingObj)
+    // console.log("gradingObj:")
+    // console.log(gradingObj)
     for (var obj of gradingObj.objects) {
-        console.log("obj:")
-        console.log(obj)
+        // console.log("obj:")
+        // console.log(obj)
         result.push(
             {
                 EntityId: obj.EntityId,
@@ -15,8 +16,8 @@ function createLinkJson(userContext, gradingObj, jobObj) {
                 link: userContext.createAuthenticatedUrl("/d2l/api/le/1.34/" + orgUnitId + "/dropbox/folders/" + folderId + "/submissions/" + obj.submissionId + "/files/" + obj.fileId, "get")
             });
     }
-    console.log("createDownloadUrls for orgUnit " + jobObj.orgUnitId + ":");
-    console.log(result);
+    // console.log("createDownloadUrls for orgUnit " + jobObj.orgUnitId + ":");
+    // console.log(result);
     return result;
 }
 

@@ -14,13 +14,19 @@ const cluster = require("../helper/cluster.helper")
 async function getGrading(req, res, next) {
     console.log("/get-grading");
     const params = req.query;
-    let Grading = await grading.find({ gradingId: params.gradingId });
+    let Grading;
+    if(params.gradingId){
+        Grading = await grading.find({ gradingId: params.gradingId });
+    }else if(params.jobId){
+        Grading = await grading.find({ jobId: params.jobId });
+    }
     res.json(Grading);
 }
 
 async function createGrading(req, res, next) {
     console.log("/post-grading");
     const body = req.body;
+    console.log(body);
     try {
         const newGrading = new grading({
             jobId: body.jobId,
