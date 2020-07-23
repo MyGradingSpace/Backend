@@ -2,17 +2,15 @@ const mongoose = require("mongoose");
 
 const infoForGraderSchema = new mongoose.Schema({
     gradingId: String,
-    links: [
-        {
-            EntityId: String,
-            filename: String,
-            link: String
-        }
-    ],
+    links: [{
+        EntityId: String,
+        filename: String,
+        link: String
+    }],
     configuration: [{
         filename: String,
         testCases: [{
-            input:String,
+            input: String,
             output: String,
             marks: Number
         }]
