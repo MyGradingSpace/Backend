@@ -4,7 +4,6 @@ const k8Config = require('openshift-rest-client').config;
 //your imports and functions here
 const settings = {
 };
-console.log("Cluster URL:"+process.env.CLUSTER_URL)
 settings.config = {
     url: "https://api.us-west-1.starter.openshift-online.com:6443",
     auth: { 
@@ -12,7 +11,7 @@ settings.config = {
     },
     insecureSkipTlsVerify: true
 };
-const config = {
+settings.config = {
     "apiVersion": "v1",
     "clusters": [
       {
@@ -74,9 +73,6 @@ const config = {
       }
     ]
   }
-  openshiftRestClient({config}).then((client) => {
-    console.log(client);
-  });
 
 
 
@@ -85,70 +81,62 @@ async function createDeployment(gradingId) {
 
     const client = await openshiftRestClient(settings);
 
-    // const projects = await client.apis['project.openshift.io'].v1.projects.get({ qs: { labelSelector: 'my-grading-space' } })
-
-    //    //create build config
-    //    const buildConfig = require('./build-config.json')
-    //    const create = await client.apis['build.openshift.io'].v1.namespaces('default').buildconfigs.post({ body: buildConfig })
-
-    //access build config
-    //   const deployment = await client.apis['build.openshift.io'].v1.namespaces('default').buildconfigs(buildConfig.metadata.name).get()
-
-    //fetch all namespaces
-    // const namespaces = await client.api.v1.namespaces.get()
-
-    //create a deployment 
-    // const deploymentManifest = require('./nginx-deployment.json')
     const buildConfig = {
-        "apiVersion": "v1",
-        "kind": "DeploymentConfig",
-        "metadata": {
-            "name": "example",
-            "namespace": "demo-proj"
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "grader-"+gradingId,
+        "namespace": "demo-proj"
+      },
+      "spec": {
+        "selector": {
+          "matchLabels": {
+            "app": "mygradingspace-grader"
+          }
         },
-        "spec": {
-            "selector": {
-                "app": "hello-openshift"
-            },
-            "replicas": 3,
-            "template": {
-                "metadata": {
-                    "labels": {
-                        "app": "hello-openshift"
-                    }
-                },
-                "spec": {
-                    "containers": [
-                        {
-                            "name": "hello-openshift-container",
-                            "image": "nginx",
-                            "ports": [
-                                {
-                                    "containerPort": 8080
-                                }
-                            ],
-                            "env": [
-                                {
-                                  "name": "GRADINGID",
-                                  "value": gradingId
-                                }
-                              ]
-
-                        }
-                    ]
-                }
+        "template": {
+          "replicas": 1,
+          "metadata": {
+            "labels": {
+              "app": "mygradingspace-grader"
             }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "grader-"+gradingId,
+                "image": "php:7.4.6-apache",
+                "ports": [
+                  {
+                    "containerPort": 80
+                  }
+                ],
+                "command": ["watch"],
+                "args": ["-n0", "sleep", "20"],
+                "restartPolicy": "Never",
+                "env": [
+                    {
+                      "name": "GRADINGID",
+                      "value": gradingId
+                    }
+                  ]
+              }
+              
+            ]
+          }
         }
+      }
     }
-    //const create = await client.apis['build.openshift.io'].v1.namespaces('default').deploy.post({ body: buildConfig })
-
-    //const create = await client.apis.template.v1.deploymentconfigs.post(buildConfig);
-    //client.api.template.v1.deploymentconfigs
-
     // //fetch deployment
-    const deployment = await client.apis.apps.v1.namespaces('demo-proj').deployments("backend-git").get()
+
+    const deployment = await client.apis.apps.v1.namespaces('demo-proj').deployments("grader-gradingid").get()
+    //Above is a working deployments retrieval line!
+
     const deploy = await client.apis.apps.v1.namespaces('demo-proj').deploy.post({body: buildConfig})
-    console.log(deployment)
+    //Above is a working deployment line!
+
+    // console.log("deployments:")
+    // console.log(deployment)
     // //post data 
 
     // await client.apis['build.openshift.io'].v1.namespaces('default').buildconfigs(buildConfig.metadata.name).post(x)

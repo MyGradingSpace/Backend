@@ -90,8 +90,8 @@ function makeGradingId(Course, Dropbox) {
     }
     result = date_ob.getFullYear() +
         "-" + date_ob.getMonth() +
-        "-" + Course.split(" ")[0].split("-")[0] +
-        "-" + Dropbox.split(' ').join('') +
+        "-" + Course.split(" ")[0].split("-")[0].toLowerCase() +
+        "-" + Dropbox.split(' ').join('').toLowerCase() +
         "-" + result;
     // console.log(result);
     return result;
