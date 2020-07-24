@@ -23,14 +23,14 @@ var dboptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 };
-// mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}?authSource=admin`, dboptions , (err) => {
-//     if (err) throw err;
-//     console.log("Local DB Connected Successfully");
-// });
-mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, (err) => {
+mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}?authSource=admin`, dboptions , (err) => {
     if (err) throw err;
     console.log("Local DB Connected Successfully");
 });
+// mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, (err) => {
+//     if (err) throw err;
+//     console.log("Local DB Connected Successfully");
+// });
 
 app.listen(process.env.PORT || process.env.port || 5000, () => {
     console.log(`Backend now listening on port ${process.env.PORT || 5000}.`);

@@ -73,7 +73,7 @@ async function getLinks(req, res, next) {
                 message: 'Cannot find grading with given gradingId.'
             });
         } else {
-            res.json(info);
+            res.json(info == [] ? [] : info[0]);
         }
     } else {
         res.status(403);
