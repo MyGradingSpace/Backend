@@ -55,7 +55,7 @@ async function createDeployment(gradingId) {
       "kind": "Deployment",
       "metadata": {
         "name": "grader-"+gradingId,
-        "namespace": "demo-proj"
+        "namespace": "my-grading-space"
       },
       "spec": {
         "selector": {
@@ -100,10 +100,10 @@ async function createDeployment(gradingId) {
 
     //Above is a working deployments retrieval line!
 
-    const deploy = await client.apis.apps.v1.namespaces('demo-proj').deploy.post({body: buildConfig})
+    const deploy = await client.apis.apps.v1.namespaces('my-grading-space').deploy.post({body: buildConfig})
 
     
-    const deployment = await client.apis.apps.v1.namespaces('demo-proj').deployments("grader-gradingid").get()
+    const deployment = await client.apis.apps.v1.namespaces('my-grading-space').deployments("grader-"+gradingId).get()
     console.log("Created a deployment:");
     console.log(deployment);
     //Above is a working deployment line!
