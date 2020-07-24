@@ -19,21 +19,41 @@ async function updateGrading(req, res, next) {
             const updatedJob = await job.findOneAndUpdate(
                 { gradingId: body.gradingId },
                 {
-                    submissionCounts: body.numOfSubmissions,
+                    gradingCounts: body.numOfSubmissions,
                 }
             );
             console.log('Updated job with id: ' + updatedJob._id + ' that has a gradingId of ' + updatedJob.gradingId)
             console.log(req.body.results)
-            for (var student of req.body.results) {
+            for (let student of req.body.results) {
                 console.log("obj.markings:")
                 console.log(student.markings)
                 // for(var file of student)
                 // $push: { "objects.$[stu]": { "markings": student.markings } }
 
-                await grading.findOneAndUpdate(
+
+                let asd = await grading.findOne({ gradingId: body.gradingId });
+                console.log("asd: ")
+                console.log(asd)
+                let index = 0;
+                for (index = 0; index < asd.objects.length; index++) {
+                    if(asd.objects[index].EntityId === student.EntityId ){
+                        break;
+                    }
+                }
+
+                await grading.updateOne(
                     { gradingId: body.gradingId },
                     {
-                        $set: { "objects.$[stu]": { "markings": student.markings } },
+                        $set: {
+                            "objects.$[stu]": {
+                                "DisplayName": asd.objects[index].DisplayName,
+                                "EntityId": asd.objects[index].EntityId,
+                                "FileName": asd.objects[index].FileName,
+                                "fileId": asd.objects[index].fileId,
+                                "submissionId": asd.objects[index].submissionId,
+                                "markings": student.markings,
+                            }
+                        },
                     },
                     {
                         "arrayFilters": [{ "stu.EntityId": student.EntityId }]
