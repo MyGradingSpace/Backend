@@ -1,23 +1,18 @@
 const grading = require("../model/grading.model");
 const job = require("../model/job.model");
+const InfoForGrader = require("../model/infoForGrader.model");
+
 const jsonHelper = require("../helper/data.helper");
 const D2L = require("valence");
-const InfoForGrader = require("../model/infoForGrader.model");
 const cluster = require("../helper/cluster.helper")
-
-// import grading from "../model/grading.model";
-// import job from "../model/job.model";
-// import helper from "../helper/helper";
-// import D2L from "valence";
-
 
 async function getGrading(req, res, next) {
     console.log("/get-grading");
     const params = req.query;
     let Grading;
-    if(params.gradingId){
+    if (params.gradingId) {
         Grading = await grading.find({ gradingId: params.gradingId });
-    }else if(params.jobId){
+    } else if (params.jobId) {
         Grading = await grading.find({ jobId: params.jobId });
     }
     res.json(Grading);
@@ -34,32 +29,23 @@ async function createGrading(req, res, next) {
             objects: body.objects,
             credential: body.credential,
         });
-        // console.log(newGrading);
         const Grading = await newGrading.save();
         res.json(Grading);
-        // console.log("Grading.gradingId:");
-        // console.log(Grading.gradingId)
         var corrspondingJob = await job.findOne({ gradingId: Grading.gradingId });
-        // console.log("corrspondingJob:");
-        // console.log(corrspondingJob);
-
-        //get all urls
 
         var D2LUserContext = new D2L.ApplicationContext(process.env.APP_ID, process.env.APP_KEY)
             .createUserContextWithValues("https://" + process.env.BRIGHTSPACE_HOST, 443, "lSj3-aOMLSfTGJcUkossnd", "_qWFeksnL-HqmHs2WXjaoD");
-        // console.log(D2LUserContext.createAuthenticatedUrl("/d2l/api/le/1.34/219419/dropbox/folders/54721/submissions/1542823/files/2675648", "get"));
-        var links = jsonHelper.createLinkJson(D2LUserContext,Grading,corrspondingJob);
-        
+        var links = jsonHelper.createLinkJson(D2LUserContext, Grading, corrspondingJob);
+
         var newInfoForGrader = new InfoForGrader({
             gradingId: body.gradingId,
-            links : links,
+            links: links,
             configuration: corrspondingJob.configuration
         })
 
         newInfoForGrader = await newInfoForGrader.save()
         console.log("saved infoForGrader:");
         console.log(newInfoForGrader.toJSON());
-        //TODO: call cluster ctrl to start a deployment with json.
         cluster.createDeployment(body.gradingId);
     } catch (err) {
         console.log(err);
@@ -72,7 +58,6 @@ async function createGrading(req, res, next) {
     }
 }
 
-
 async function deleteGrading(req, res, next) {
     console.log("/delete-grading");
     const params = req.query;
@@ -80,6 +65,12 @@ async function deleteGrading(req, res, next) {
         _id: params._id
     });
     res.json(selectGrading);
+}
+
+async function deleteGradingThroughGradingId(id) {
+    console.log("/delete-grading-through-jobId");
+    await grading.deleteOne({ gradingId: id });
+    await InfoForGrader.deleteOne({ gradingId: id });
 }
 
 const sleep = (milliseconds) => {
@@ -90,4 +81,5 @@ module.exports = {
     getGrading,
     createGrading,
     deleteGrading,
+    deleteGradingThroughGradingId,
 };

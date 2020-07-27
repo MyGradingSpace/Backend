@@ -63,8 +63,8 @@ async function updateJob(req, res, next) {
             details: {
                 missingProperties: req.body.hasOwnProperty("_id") ? "" : "_id " +
                     req.body.hasOwnProperty("gradingId") ? "" : "gradingId " +
-                    req.body.hasOwnProperty("gradingCounts") ? "" : "gradingCounts " +
-                    req.body.hasOwnProperty("submissionCounts") ? "" : "submissionCounts ",
+                        req.body.hasOwnProperty("gradingCounts") ? "" : "gradingCounts " +
+                            req.body.hasOwnProperty("submissionCounts") ? "" : "submissionCounts ",
                 info: {}
             }
         });
@@ -75,9 +75,10 @@ async function deleteJob(req, res, next) {
     console.log("/delete-job");
     const params = req.query;
     const selectJob = await job.deleteOne({
-        _id: params._id
+        gradingId: params.gradingId
     });
-    res.json(selectJob);
+    await grading.deleteGradingThroughGradingId(params.gradingId);
+    res.json(selectJob); 
 }
 
 function makeGradingId(Course, Dropbox) {
