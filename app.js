@@ -31,7 +31,7 @@ if(process.env.MONGODB_SERVICE_HOST){
     mongodb_connection_string = "mongodb://"+process.env.MONGODB_SERVICE_HOST +':'+process.env.MONGODB_SERVICE_PORT_MONGO+ "/my-grading-space";
   
   }
-mongoose.connect(mongodb_connection_string , (err) => {
+mongoose.connect(mongodb_connection_string,dboptions, (err) => {
     if (err) throw err;
     console.log("Local DB Connected Successfully");
 });
