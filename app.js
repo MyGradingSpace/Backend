@@ -27,6 +27,7 @@ var dboptions = {
 let mongodb_connection_string = 'mongodb://mongo:27017/' + "my-grading-space";
 
 if(process.env.MONGODB_SERVICE_HOST){
+    
     mongodb_connection_string = "mongodb://"+process.env.MONGODB_SERVICE_HOST +':'+process.env.MONGODB_SERVICE_PORT_MONGO+ "/my-grading-space";
   
   }
