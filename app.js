@@ -23,7 +23,15 @@ var dboptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 };
-mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}?authSource=admin`, dboptions , (err) => {
+
+let mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + "my-grading-space";
+
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+
+    mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + "my-grading-space";
+  
+  }
+mongoose.connect(mongodb_connection_string , (err) => {
     if (err) throw err;
     console.log("Local DB Connected Successfully");
 });
@@ -32,8 +40,8 @@ mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}?authSource=ad
 //     console.log("Local DB Connected Successfully");
 // });
 
-app.listen(process.env.PORT || process.env.port || 5000, () => {
-    console.log(`Backend now listening on port ${process.env.PORT || 5000}.`);
+app.listen(process.env.OPENSHIFT_NODEJS_PORT || process.env.OPENSHIFT_NODEJS_IP || 8080, () => {
+    console.log(`Backend now listening on port ${process.env.OPENSHIFT_NODEJS_PORT || 8080}.`);
 });
 
 //health-check
