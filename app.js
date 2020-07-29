@@ -24,11 +24,11 @@ var dboptions = {
     useUnifiedTopology: true
 };
 
-let mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + "my-grading-space";
+let mongodb_connection_string = 'mongodb://mongo:27017/' + "my-grading-space";
 
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
+if(process.env.MONGODB_SERVICE_HOST){
 
-    mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + "my-grading-space";
+    mongodb_connection_string = "mongodb://"+process.env.MONGODB_SERVICE_HOST +':'+process.env.MONGODB_SERVICE_PORT_MONGO+ "/my-grading-space";
   
   }
 mongoose.connect(mongodb_connection_string , (err) => {
