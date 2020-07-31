@@ -74,14 +74,14 @@ async function createDeployment(gradingId) {
             "containers": [
               {
                 "name": "grader-"+gradingId,
-                "image": "php:7.4.6-apache",
+                "image": "schlg2333/grader",
                 "ports": [
                   {
                     "containerPort": 80
                   }
                 ],
-                "command": ["watch"],
-                "args": ["-n0", "sleep", "20"],
+                "command": ["python"],
+                "args": ["main.py"],
                 "restartPolicy": "Never",
                 "env": [
                     {
