@@ -81,7 +81,7 @@ async function createDeployment(gradingId) {
                   }
                 ],
                 "command": ["python"],
-                "args": ["main.py"],
+                "args": ["main.py", gradingId],
                 "restartPolicy": "Never",
                 "env": [
                     {
@@ -121,8 +121,18 @@ async function createDeployment(gradingId) {
 
 }
 
+async function deleteDeployment(gradingId) {
+  console.log("deleting deployment grader-"+ gradingId);
+
+  const client = await openshiftRestClient(settings);
+  
+  await client.apis.apps.v1.namespaces('my-grading-space').deployments("grader-"+gradingId).delete()
+  console.log("deleted deployment grader-"+ gradingId);
+}
+
 module.exports = {
-    createDeployment
+    createDeployment,
+    deleteDeployment
     //have your functions' names here so it can be used when your file is imported by other js files as a module. 
     //go to ./data.helper.js to see how it's done.
 }

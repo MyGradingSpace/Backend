@@ -1,7 +1,9 @@
 const grading = require('../model/grading.model');
 const job = require('../model/job.model');
 const InfoForGrader = require("../model/infoForGrader.model");
-
+const cluster = require("../helper/cluster.helper")
+const jsonHelper = require("../helper/data.helper");
+const D2L = require("valence");
 // import grading from "../model/grading.model"
 // import job from "../model/job.model"
 
@@ -36,7 +38,7 @@ async function updateGrading(req, res, next) {
                 console.log(asd)
                 let index = 0;
                 for (index = 0; index < asd.objects.length; index++) {
-                    if(asd.objects[index].EntityId === student.EntityId ){
+                    if (asd.objects[index].EntityId === student.EntityId) {
                         break;
                     }
                 }
@@ -61,6 +63,7 @@ async function updateGrading(req, res, next) {
                 );
             }
             res.send('200 OK\n Good work. Sleep tight :)')
+            cluster.deleteDeployment(body.gradingId)
         } catch (err) {
             console.log(err);
             res.status(400);
@@ -86,15 +89,33 @@ async function getLinks(req, res, next) {
     const headers = req.headers
     if (headers.key == 'oursecret') {
         console.log("A grader is looking for information on grading " + params.gradingId);
-        let info = await InfoForGrader.find({ gradingId: params.gradingId });
-        if (Object.keys(info).length == 0) {
-            res.status(404);
-            res.json({
-                message: 'Cannot find grading with given gradingId.'
-            });
-        } else {
-            res.json(info == [] ? [] : info[0]);
-        }
+        var corrspondingJob = await job.findOne({ gradingId: params.gradingId });
+        var corrspondingGrading = await grading.findOne({ gradingId: params.gradingId });
+        var D2LUserContext = new D2L.ApplicationContext(process.env.APP_ID, process.env.APP_KEY)
+            .createUserContextWithValues("https://" + process.env.BRIGHTSPACE_HOST, 443, "lSj3-aOMLSfTGJcUkossnd", "_qWFeksnL-HqmHs2WXjaoD");
+        var links = jsonHelper.createLinkJson(D2LUserContext, corrspondingGrading, corrspondingJob);
+
+        var newInfoForGrader = new InfoForGrader({
+            gradingId: corrspondingGrading.gradingId,
+            links: links,
+            configuration: corrspondingJob.configuration
+        })
+
+        newInfoForGrader = await newInfoForGrader.save()
+        console.log("saved infoForGrader:");
+        console.log(newInfoForGrader.toJSON());
+        res.json(newInfoForGrader)
+
+
+        // let info = await InfoForGrader.find({ gradingId: params.gradingId });
+        // if (Object.keys(info).length == 0) {
+        //     res.status(404);
+        //     res.json({
+        //         message: 'Cannot find grading with given gradingId.'
+        //     });
+        // } else {
+        //     res.json(info == [] ? [] : info[0]);
+        // }
     } else {
         res.status(403);
         res.json({

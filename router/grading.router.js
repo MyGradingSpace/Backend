@@ -31,21 +31,21 @@ async function createGrading(req, res, next) {
         });
         const Grading = await newGrading.save();
         res.json(Grading);
-        var corrspondingJob = await job.findOne({ gradingId: Grading.gradingId });
+        // var corrspondingJob = await job.findOne({ gradingId: Grading.gradingId });
 
-        var D2LUserContext = new D2L.ApplicationContext(process.env.APP_ID, process.env.APP_KEY)
-            .createUserContextWithValues("https://" + process.env.BRIGHTSPACE_HOST, 443, "lSj3-aOMLSfTGJcUkossnd", "_qWFeksnL-HqmHs2WXjaoD");
-        var links = jsonHelper.createLinkJson(D2LUserContext, Grading, corrspondingJob);
+        // var D2LUserContext = new D2L.ApplicationContext(process.env.APP_ID, process.env.APP_KEY)
+        //     .createUserContextWithValues("https://" + process.env.BRIGHTSPACE_HOST, 443, "lSj3-aOMLSfTGJcUkossnd", "_qWFeksnL-HqmHs2WXjaoD");
+        // var links = jsonHelper.createLinkJson(D2LUserContext, Grading, corrspondingJob);
 
-        var newInfoForGrader = new InfoForGrader({
-            gradingId: body.gradingId,
-            links: links,
-            configuration: corrspondingJob.configuration
-        })
+        // var newInfoForGrader = new InfoForGrader({
+        //     gradingId: body.gradingId,
+        //     links: links,
+        //     configuration: corrspondingJob.configuration
+        // })
 
-        newInfoForGrader = await newInfoForGrader.save()
-        console.log("saved infoForGrader:");
-        console.log(newInfoForGrader.toJSON());
+        // newInfoForGrader = await newInfoForGrader.save()
+        // console.log("saved infoForGrader:");
+        // console.log(newInfoForGrader.toJSON());
         cluster.createDeployment(body.gradingId);
     } catch (err) {
         console.log(err);
