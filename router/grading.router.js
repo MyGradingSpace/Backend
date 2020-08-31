@@ -46,7 +46,7 @@ async function createGrading(req, res, next) {
         // newInfoForGrader = await newInfoForGrader.save()
         // console.log("saved infoForGrader:");
         // console.log(newInfoForGrader.toJSON());
-        await sleep(10000);
+        await sleep(5000);
         cluster.createDeployment(body.gradingId);
     } catch (err) {
         console.log(err);
